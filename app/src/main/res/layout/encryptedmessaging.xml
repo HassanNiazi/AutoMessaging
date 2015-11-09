@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    >
+
+    <EditText
+        android:hint="Phone Number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:ems="10"
+        android:layout_marginTop="15dp"
+        android:id="@+id/PhoneNo"
+        />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+
+        TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Key Length"
+            android:layout_marginLeft="45dp"
+            android:layout_marginTop="20dp"
+            android:id="@+id/textView10" />
+
+        TextView
+            android:gravity="right"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Show Key"
+
+            android:id="@+id/textView6" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:weightSum="1"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="16 Character Key"
+            android:ems="10"
+            android:layout_weight="0.4"
+            android:id="@+id/Key" />
+
+        <TextView
+
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Key Length"
+            android:gravity="center"
+            android:layout_weight="0.2"
+            android:layout_gravity="center"
+            android:id="@+id/KeyLength" />
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New ToggleButton"
+            android:layout_marginRight="5dp"
+            android:layout_weight="0.4"
+            android:id="@+id/ShowKey"
+            />
+
+
+    </LinearLayout>
+
+
+    TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Message"
+        android:id="@+id/textView8"
+        android:layout_marginLeft="10dp"
+         />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1">
+
+        <EditText
+            android:layout_width="match_parent"
+          android:hint="Message"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+
+            android:id="@+id/messageBody"
+           />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Send"
+
+            android:layout_weight="0.8"
+
+            android:id="@+id/SendButton"
+            android:layout_marginTop="10dp" />
+
+
+    </LinearLayout>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="372dp"
+
+        android:id="@+id/messageList" />
+
+</LinearLayout>
