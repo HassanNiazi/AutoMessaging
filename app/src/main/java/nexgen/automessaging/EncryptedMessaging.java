@@ -30,32 +30,42 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
-
-/**
- * Created by Hassan Niazi on 10/6/2015.
- */
 public class EncryptedMessaging extends Activity {
 
+    private static ArrayList<Message> list;
+    private static MessageArrayAdapter adapter;
+    private static Cipher encryptCipher;
     Button send;
     ToggleButton showkey;
     EditText phoneNumber, secretKey, messageBody;
     TextView keyLength;
-    private static ArrayList<Message> list;
-    private static MessageArrayAdapter adapter;
-    private static Cipher encryptCipher;
+
+    public static String byte2hex(byte[] b) {
+        String hs = "";
+        String stmp;
+        for (int n = 0; n < b.length; n++) {
+            stmp = Integer.toHexString(b[n] & 0xFF);
+            if (stmp.length() == 1)
+                hs += ("0" + stmp);
+            else
+                hs += stmp;
+        }
+        return hs.toUpperCase();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.encryptedmessaging);
         initialize();
-
+        secretKey.setBackgroundColor(Color.RED);
+        send.setEnabled(false);
         final ListView listview = (ListView) findViewById(R.id.messageList);
         list = new ArrayList<>();
         adapter = new MessageArrayAdapter(this, list);
         listview.setAdapter(adapter);
         ReceivedSMS receivedSMS = new ReceivedSMS(this);
-        IntentFilter filter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
+        IntentFilter filter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED"); // intent to recieve message ! Check again the concept of intents Activities and ...
         registerReceiver(receivedSMS, filter);
 
         send.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +86,14 @@ public class EncryptedMessaging extends Activity {
             }
         });
 
+        secretKey.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (secretKey.getText().length() != 16) {
+                    Toast.makeText(EncryptedMessaging.this, "Please enter a valid 16 char Key", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         secretKey.addTextChangedListener(new TextWatcher() {
             @Override
@@ -86,6 +104,14 @@ public class EncryptedMessaging extends Activity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 keyLength.setText(secretKey.getText().length()+"");
+
+                if (secretKey.getText().length() != 16) {
+                    secretKey.setBackgroundColor(Color.RED);
+                    send.setEnabled(false);
+                } else {
+                    secretKey.setBackgroundColor(Color.GREEN);
+                    send.setEnabled(true);
+                }
                 //keyLength.setText(count+"");
             }
 
@@ -115,9 +141,8 @@ public void initialize()
         byte[] returnArray = new byte[0];
         try {
             String SecretKey = secretKey.getText().toString();
-            Cipher c = Cipher.getInstance("AES");
-
-            javax.crypto.SecretKey key = new SecretKeySpec(SecretKey.getBytes(), "AES");
+            Cipher c = Cipher.getInstance("AES"); // Cipher object declaration and initialization with AES Algorithm
+            javax.crypto.SecretKey key = new SecretKeySpec(SecretKey.getBytes(), "AES"); // Declaration and init of secret key object
 
             try {
                 c.init(Cipher.ENCRYPT_MODE, key);
@@ -126,7 +151,7 @@ public void initialize()
             }
 
             try {
-                returnArray = c.doFinal(message.getBytes());
+                returnArray = c.doFinal(message.getBytes()); // running Algorithm on string data
             } catch (IllegalBlockSizeException e) {
                 e.printStackTrace();
             } catch (BadPaddingException e) {
@@ -147,19 +172,6 @@ public void initialize()
         Toast.makeText(getBaseContext(), "Message Sent", Toast.LENGTH_SHORT).show();
         addToMessages("Me", messageBody.getText().toString());
         messageBody.setText("");
-    }
-
-    public static String byte2hex(byte[] b) {
-        String hs = "";
-        String stmp = "";
-        for (int n = 0; n < b.length; n++) {
-            stmp = Integer.toHexString(b[n] & 0xFF);
-            if (stmp.length() == 1)
-                hs += ("0" + stmp);
-            else
-                hs += stmp;
-        }
-        return hs.toUpperCase();
     }
 
     public void addToMessages(String sender, String message) {

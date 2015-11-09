@@ -2,21 +2,18 @@ package nexgen.automessaging;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 
-/**
- * Created by Hassan Niazi on 10/3/2015.
- */
+
 public class Splash extends Activity{
 
-    MediaPlayer splashsound;
+    // MediaPlayer splashsound; // Deactivating Splash Screen Sound until I change the sound to a decent one
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
-        splashsound = MediaPlayer.create(Splash.this,R.raw.splashsound);
-        splashsound.start();
+        //    splashsound = MediaPlayer.create(Splash.this,R.raw.splashsound);
+        //    splashsound.start();
         Thread timer = new Thread(){
             public void run(){
                 try
@@ -39,7 +36,7 @@ public class Splash extends Activity{
     @Override
     protected void onPause() {
         super.onPause();
-        splashsound.release();
+        //  splashsound.release();
         finish();
     }
 }
