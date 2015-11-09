@@ -90,7 +90,7 @@ public class EncryptedMessaging extends Activity {
             @Override
             public void onClick(View v) {
                 if (secretKey.getText().length() != 16) {
-                    Toast.makeText(EncryptedMessaging.this, "Please enter a valid 16 char Key", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EncryptedMessaging.this, "Please enter a valid 16 character secret Key ", Toast.LENGTH_SHORT).show();
                 }
             }
         });
